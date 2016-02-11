@@ -4,6 +4,14 @@ $('#newTaskForm').hide();
 
 var listo = [];
 
+function supports_local_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch(e){
+    return false;
+  }
+}
+
 var Task = function(task) {
   this.task = task;
   this.id = 'new';
@@ -33,8 +41,13 @@ var addTask = function(task) {
     listo.push(task);
     $('#newItemInput').val('');
     $('#newList').append('<a href="#" class="" id="item"><li class="list-group-item">' + task.task + '<span class="arrow pull-right"><i class="glyphicon glyphicon-arrow-right"></span></li></a>');
+    localStorage.setItem("task", JSON.stringify(task));
   }
     $('#newTaskForm, #newListItem').fadeToggle('fast', 'linear');
+
+    if(localStorage.getItem('task')) {
+ 		$('#task').html(localStorage.getItem('task'));
+ 		}
 };
 
 
